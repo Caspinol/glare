@@ -5,10 +5,25 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <label for="search">Search</label>
-    <input type="text" name="search"/>
-    <div id="result">
+    <div id="head">
+      <div id="search">
+	<label for="search"><b>Search</b></label>
+	<input type="text" name="search"/>
+      </div>
+      
+      <h2>Directory</h2>
+      <div id="directory">
+	
+      </div>
+    </div>
+    <div id="body">
+      <h2>Logs</h2>
+      <div id="log_window">
+	<ul id="log_list"></ul>
+      </div>
     </div>
   </body>
-  <script src=""></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/glare-front.js"></script>
 </html>

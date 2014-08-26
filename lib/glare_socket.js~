@@ -1,0 +1,9 @@
+
+module.exports = function(server){
+  //use the express app to create socket.io server
+  var io = require('socket.io').listen(server);
+
+  io.sockets.on('connection', function(socket) {
+    socket.emit('welcome', { message: 'Welcome!' });
+  });  
+}
