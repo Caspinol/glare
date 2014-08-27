@@ -5,15 +5,20 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <div id="search">
+      <label for="search"><b>Search</b></label>
+      <input type="text" name="search"/>
+    </div>
     <div id="head">
-      <div id="search">
-	<label for="search"><b>Search</b></label>
-	<input type="text" name="search"/>
-      </div>
-      
       <h2>Directory</h2>
       <div id="directory">
-	
+	<form>
+	  <ul>
+	    <% files.forEach(function(f){ %>
+	    <li> <%= f %> <input type="checkbox" name="filename" value="<%= f %>"></li>
+	    <% }); %>
+	  </ul>
+	</form>
       </div>
     </div>
     <div id="body">

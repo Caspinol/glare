@@ -10,5 +10,5 @@ socket.on('time', function(data){
 });
 
 socket.on('logevent', function(data){
-  $('#log_list').append('<li>'+data.log+'</li>');
+  $('#log_list').append('<li>'+data.logs+'</li>');
 });
