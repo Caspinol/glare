@@ -7,6 +7,7 @@ module.exports = function(app, io){
   tail.doTail('/var/log/messages', function(logs){
     io.sockets.emit('logevent', {logs : logs.toString()});
   });
+
   /* GET home page. */
   app.get('/', function(req, res) {
     
