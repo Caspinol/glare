@@ -18,14 +18,25 @@
 	            <small> - log viewer</small>
 	        </h1></a>
 	      </div>
+        <div class="navbar-right">
+          <form class="navbar-form" method="POST" action="/command">
+            <% if(command === 'tail'){ %>
+            <input type="hidden" name="cmd" value="less">
+            <input type="submit" class="btn btn-sm navbar-btn" value="less">
+            <% }else{ %>
+            <input type="hidden" name="cmd" value="tail">
+            <input type="submit" class="btn btn-sm navbar-btn" value="tail">
+            <% } %>
+            <label>Current file: "<%= current_file %>"</label>
+            <label>Current search term: "<%= current_grep %>"</label>
+          </form>
+        </div>
 	      <div class="navbar-right">
 	        <form class="navbar-form" method="POST" action="/grep">
 	          <label class="" for="search"><b>Search</b></label>
 	          <input type="text" class="text" name="search"/>
 	          <input class="btn btn-sm navbar-btn" type="submit" value="Search"/>
 	        </form>
-          <label>Current search term: "<%= current_grep %>"</label>
-          <label>Current file: "<%= current_file %>"</label>
 	      </div>
       </div>
     </div>

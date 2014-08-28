@@ -1,18 +1,11 @@
 var socket = io.connect('localhost:3000');
 
 
-socket.on('welcome', function(data){
-  $('#log_list').append('<li>'+data.message+'</li>')
-});
-
-socket.on('time', function(data){
-  $('#log_list').append('<li>'+data.time+'</li>')
-});
-
 socket.on('logevent', function(data){
   $('#log_list').append('<li>Log: '+data.logs+'</li>');
 });
 
 socket.on('grep', function(data){
+  alert(data);
   $('#log_list').append('<li>Grepped: '+data.logs+'</li>');
 });

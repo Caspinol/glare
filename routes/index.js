@@ -1,38 +1,48 @@
 var tail = require('../lib/tail');
 var log = require('../lib/log');
 var current_grep = "",
-fileList, current_file = '/var/log/messages';
+current_file = '/var/log/messages',
+command = 'tail', tail_proc;
 
 module.exports = function(app, io){
-  
-  /*start sockets.io listener*/
-  var tail_proc = tail.doTail('/var/log/dmesg',  function(logs){
-    io.sockets.emit('logevent', {logs : logs.toString()});
-  });
 
   /* GET home page. */
   app.get('/', function(req, res) {
     
-    tail_proc = tail.doTail(current_file, function(logs){
-      if(logs.indexOf(current_grep) > -1){
-        io.sockets.emit('grep', {logs : logs.toString()});
-      }
-    });
+    if(command === 'tail'){
+      tail_proc = tail.doTail(current_file, function(logs){
+        if(logs.indexOf(current_grep) > -1){
+          io.sockets.emit('grep', {logs : logs.toString()});
+        }
+      });
+    }else{
+      if(tail_proc)
+        tail.killTail(tail_proc);
+
+      tail.doLess(current_file, function(logs){
+
+        if(logs.indexOf(current_grep) > -1){
+          io.sockets.emit('grep', {logs : logs.toString()});
+        }
+      });
+    }
     
     tail.showDirTree('/var/log', function(files){
-      fileList = files;
+      
       res.render('index', { 
 	      title: 'Glare',
 	      files: files,
         current_grep: current_grep,
-        current_file: current_file
+        current_file: current_file,
+        command: command
       });
     });
   });
   
   app.post('/grep', function(req,res){
     //kill previous tail
-    tail.killTail(tail_proc);
+    if(tail_proc)
+      tail.killTail(tail_proc);
 
     current_grep = req.body.search;
     res.redirect('/');
@@ -40,9 +50,19 @@ module.exports = function(app, io){
 
   app.post('/fileselect', function(req,res){
     //kill running tail
-    tail.killTail(tail_proc);
+    if(tail_proc)
+      tail.killTail(tail_proc);
 
     current_file = req.body.filename;
+    res.redirect('/');
+  });
+
+  app.post('/command', function(req,res){
+    
+    if(tail_proc)
+      tail.killTail(tail_proc);
+    
+    command = req.body.cmd;
     res.redirect('/');
   });
 };
