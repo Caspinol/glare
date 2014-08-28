@@ -25,6 +25,7 @@
 	          <input class="btn btn-sm navbar-btn" type="submit" value="Search"/>
 	        </form>
           <label>Current search term: "<%= current_grep %>"</label>
+          <label>Current file: "<%= current_file %>"</label>
 	      </div>
       </div>
     </div>
@@ -43,7 +44,7 @@
 	          <input class="btn" type="submit" value="view">
 	          <ul class="nav nav-sidebar">
 	            <% files.forEach(function(f){ %>
-	            <li> <%= f %> <input type="checkbox" name="filename" value="<%= f %>"></li>
+	            <li> <%= f %> <input type="radio" name="filename" value="<%= f %>"></li>
 	            <% }); %>
 	          </ul>
 	        </form>

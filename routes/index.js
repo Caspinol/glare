@@ -1,6 +1,7 @@
 var tail = require('../lib/tail');
 var log = require('../lib/log');
-var current_grep = "", fileList;
+var current_grep = "",
+fileList, current_file = '/var/log/messages';
 
 module.exports = function(app, io){
   
@@ -12,7 +13,7 @@ module.exports = function(app, io){
   /* GET home page. */
   app.get('/', function(req, res) {
     
-    tail_proc = tail.doTail('/var/log/messages', function(logs){
+    tail_proc = tail.doTail(current_file, function(logs){
       if(logs.indexOf(current_grep) > -1){
         io.sockets.emit('grep', {logs : logs.toString()});
       }
@@ -23,7 +24,8 @@ module.exports = function(app, io){
       res.render('index', { 
 	      title: 'Glare',
 	      files: files,
-        current_grep: current_grep
+        current_grep: current_grep,
+        current_file: current_file
       });
     });
   });
@@ -33,6 +35,14 @@ module.exports = function(app, io){
     tail.killTail(tail_proc);
 
     current_grep = req.body.search;
+    res.redirect('/');
+  });
+
+  app.post('/fileselect', function(req,res){
+    //kill running tail
+    tail.killTail(tail_proc);
+
+    current_file = req.body.filename;
     res.redirect('/');
   });
 };
