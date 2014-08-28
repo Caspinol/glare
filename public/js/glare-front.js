@@ -10,5 +10,9 @@ socket.on('time', function(data){
 });
 
 socket.on('logevent', function(data){
-  $('#log_list').append('<li>'+data.logs+'</li>');
+  $('#log_list').append('<li>Log: '+data.logs+'</li>');
+});
+
+socket.on('grep', function(data){
+  $('#log_list').append('<li>Grepped: '+data.logs+'</li>');
 });
