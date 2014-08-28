@@ -22,7 +22,8 @@ module.exports = function(app, io){
       fileList = files;
       res.render('index', { 
 	      title: 'Glare',
-	      files: files
+	      files: files,
+        current_grep: current_grep
       });
     });
   });

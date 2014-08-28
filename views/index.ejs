@@ -10,21 +10,22 @@
   <body>
     
     <!-- navigation bar section -->
-
+    
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
-	<div class="navbar-header">
-	  <a href="/"><h1>GLARE
-	    <small> - log viewer</small>
-	  </h1></a>
-	</div>
-	<div class="navbar-collapse collapse">
-	  <form class="navbar-form" method="POST" action="/grep">
-	    <label class="" for="search"><b>Search</b></label>
-	    <input type="text" class="text" name="search"/>
-	    <input class="btn btn-sm navbar-btn" type="submit" value="Search"/>
-	  </form>
-	</div>
+	      <div class="navbar-header">
+	        <a href="/"><h1>GLARE
+	            <small> - log viewer</small>
+	        </h1></a>
+	      </div>
+	      <div class="navbar-right">
+	        <form class="navbar-form" method="POST" action="/grep">
+	          <label class="" for="search"><b>Search</b></label>
+	          <input type="text" class="text" name="search"/>
+	          <input class="btn btn-sm navbar-btn" type="submit" value="Search"/>
+	        </form>
+          <label>Current search term: "<%= current_grep %>"</label>
+	      </div>
       </div>
     </div>
     
@@ -33,28 +34,28 @@
     <div class="container-fluid">
       
       <div class="row">
-	
-	<div id="directory" class="col-md-3 sidebar">
-	  <h2 class="page-header">Files
-	    <small>select files to view</small>
-	  </h2>
-	  <form method="POST" action="/fileselect">
-	    <input class="btn" type="submit" value="view">
-	    <ul class="nav nav-sidebar">
-	      <% files.forEach(function(f){ %>
-	      <li> <%= f %> <input type="checkbox" name="filename" value="<%= f %>"></li>
-	      <% }); %>
-	    </ul>
-	  </form>
-	</div>
-	
-	<div id="body" class="col-md-9 main">
-	  <h2 class="page-header">Logs </h2>
-	  <div id="log_window">
-	    <ul id="log_list"></ul>
-	  </div>
-	</div>
-	
+	      
+	      <div id="directory" class="col-md-3 sidebar">
+	        <h2 class="page-header">Files
+	          <small>select files to view</small>
+	        </h2>
+	        <form method="POST" action="/fileselect">
+	          <input class="btn" type="submit" value="view">
+	          <ul class="nav nav-sidebar">
+	            <% files.forEach(function(f){ %>
+	            <li> <%= f %> <input type="checkbox" name="filename" value="<%= f %>"></li>
+	            <% }); %>
+	          </ul>
+	        </form>
+	      </div>
+	      
+	      <div id="body" class="col-md-9 main">
+	        <h2 class="page-header">Logs </h2>
+	        <div id="log_window">
+	          <ul id="log_list"></ul>
+	        </div>
+	      </div>
+	      
       </div>
     </div>
   </body>
