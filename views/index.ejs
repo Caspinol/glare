@@ -27,9 +27,11 @@
             <input type="hidden" name="cmd" value="tail">
             <input type="submit" class="btn btn-sm navbar-btn" value="tail">
             <% } %>
-            <label>Current file: "<%= current_file %>"</label>
-            <label>Current search term: "<%= current_grep %>"</label>
           </form>
+          <ul class="nav">
+            <li><label>Current file: "<%= current_file %>"</label></li>
+            <li><label>Current search term: "<%= current_grep %>"</label></li>
+          </ul>
         </div>
 	      <div class="navbar-right">
 	        <form class="navbar-form" method="POST" action="/grep">
@@ -65,6 +67,10 @@
 	        <h2 class="page-header">Logs </h2>
 	        <div id="log_window">
 	          <ul id="log_list"></ul>
+            <% if(lines){ 
+               lines.forEach(function(line){%>
+            <li><%= line %></li>
+            <% }); } %>
 	        </div>
 	      </div>
 	      
