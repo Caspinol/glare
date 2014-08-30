@@ -19,14 +19,9 @@
 	        </h1></a>
 	      </div>
         <div class="navbar-right">
-          <form class="navbar-form" method="POST" action="/command">
-            <% if(command === 'tail'){ %>
-            <input type="hidden" name="cmd" value="less">
-            <input type="submit" class="btn btn-sm navbar-btn" value="less">
-            <% }else{ %>
-            <input type="hidden" name="cmd" value="tail">
-            <input type="submit" class="btn btn-sm navbar-btn" value="tail">
-            <% } %>
+          <form class="navbar-form" id="command_form">
+            <input id="hidden_cmd" type="hidden" name="command" value="less">
+            <input id="submit_cmd" type="button" class="btn btn-sm navbar-btn" value="less">
           </form>
           <ul class="nav">
             <li><label>Current file: "<%= current_file %>"</label></li>
@@ -34,10 +29,10 @@
           </ul>
         </div>
 	      <div class="navbar-right">
-	        <form class="navbar-form" method="POST" action="/grep">
-	          <label class="" for="search"><b>Search</b></label>
+	        <form class="navbar-form" id="grep_form">
+	          <label for="search"><b>Search</b></label>
 	          <input type="text" class="text" name="search"/>
-	          <input class="btn btn-sm navbar-btn" type="submit" value="Search"/>
+	          <input id="submit_search" class="btn btn-sm navbar-btn" type="button" value="Search"/>
 	        </form>
 	      </div>
       </div>
@@ -53,8 +48,8 @@
 	        <h2 class="page-header">Files
 	          <small>select files to view</small>
 	        </h2>
-	        <form method="POST" action="/fileselect">
-	          <input class="btn" type="submit" value="view">
+	        <form id="file_form">
+	          <input id="submit_file" class="btn btn-sm" type="button" value="view">
 	          <ul class="nav nav-sidebar">
 	            <% files.forEach(function(f){ %>
 	            <li> <%= f %> <input type="radio" name="filename" value="<%= f %>"></li>
@@ -66,18 +61,16 @@
 	      <div id="body" class="col-md-9 main">
 	        <h2 class="page-header">Logs </h2>
 	        <div id="log_window">
+            
 	          <ul id="log_list"></ul>
-            <% if(lines){ 
-               lines.forEach(function(line){%>
-            <li><%= line %></li>
-            <% }); } %>
+            
 	        </div>
 	      </div>
 	      
       </div>
     </div>
   </body>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/glare-front.js"></script>
