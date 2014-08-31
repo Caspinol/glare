@@ -1,7 +1,7 @@
 /* imports */
 var tail = require('../lib/tail');
 var log = require('../lib/log');
-
+var colorize = require('../lib/mod');
 
 module.exports = function(app, io){
 
@@ -19,7 +19,7 @@ module.exports = function(app, io){
 
     //start the default tail process
     tail_proc = tail.doTail(fields.file, function(logs){
-      lines = logs.split("\n");
+      var lines = logs.split("\n");
       lines.forEach(function(line){
         if(line.indexOf(fields.grep) > -1){
           io.sockets.emit('tail', {logs : line});
@@ -64,23 +64,31 @@ module.exports = function(app, io){
       
       log.info("Starting new %s process with %s file", fields.command, fields.file);  
       tail_proc = tail.doTail(fields.file, function(logs){
-        lines = logs.split("\n");
+        
+        var lines = logs.split('\n');
         lines.forEach(function(line){
           if(line.indexOf(fields.grep) > -1){
-            io.sockets.emit('tail', {logs : line});
+            //colorize the grepped word
+            var l = colorize(line, fields.grep);
+            l = '<li>Tail: '+l+'</li>';
+            io.sockets.emit('tail', {logs : l});
           }
         });
       }); 
     }
 
     if(fields.command === 'less'){
-
+      
       log.info("Starting new %s process with %s file", fields.command, fields.file);      
       tail.doLess(fields.file, function(logs){
-        lines = logs.split("\n");
+        var lines = logs.split("\n");
         lines.forEach(function(line){
           if(line.indexOf(fields.grep) > -1){
-            io.sockets.emit('less', {logs: line});
+            
+            //colorize the grepped word
+            var l = colorize(line, fields.grep);
+            l = '<li>Less: '+l+'</li>';
+            io.sockets.emit('less', {logs: l});
           }
         });
       });

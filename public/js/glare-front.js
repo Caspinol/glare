@@ -7,11 +7,13 @@ $(document).ready(function(){
   });
   
   socket.on('tail', function(data){
-    $('#log_list').append('<li>Tail: '+data.logs+'</li>');
+    $('#log_list').append(data.logs);
+//    console.log('<li>Tail: '+data.logs+'</li>');
   });
   
   socket.on('less', function(data){
-    $('#log_list').append('<li>Less: '+data.logs+'</li>');
+    $('#log_list').append(data.logs);
+//    console.log('<li>Less: '+data.logs+'</li>');
   });
 
   $("#submit_cmd").click(function(e){
