@@ -12,7 +12,6 @@ $(document).ready(function(){
   
   socket.on('less', function(data){
     $('#log_list').append('<li>Less: '+data.logs+'</li>');
-    console.log(data.message);
   });
 
   $("#submit_cmd").click(function(e){
@@ -20,18 +19,15 @@ $(document).ready(function(){
     $.ajax({
       url: '/',
       method: 'POST',
-      data: $('#command_form').serialize(),
-      dataType: 'text',
+      data: {command : $('#submit_cmd').val()},
       success: function(data){
         
         $('#log_list').empty();
-        
-        if($('#submit_cmd').val() === 'tail'){
+
+        if(data.command === 'tail'){
           $('#submit_cmd').val('less');
-          $('#hidden_cmd').val('less');
         }else{
           $('#submit_cmd').val('tail');
-          $('#hidden_cmd').val('tail');
         }
       }
     });
@@ -43,25 +39,26 @@ $(document).ready(function(){
       url: '/',
       method: 'POST',
       data: $('#grep_form').serialize(),
-      dataType: 'text',
       success: function(data){
+        
         $('#log_list').empty();
+        $('#grep > label').text('Grepping: '+data.grep);
       }
     });
   });
-
+                         
   $('#submit_file').click(function(e){
 
     $.ajax({
       url: '/',
       method: 'POST',
       data: $('#file_form').serialize(),
-      dataType: 'text',
       success: function(data){
+        
         $('#log_list').empty();
+        $('#file > label').text("File: "+data.file);
       }
     });
-    //e.preventDefault();
   });
 });
 

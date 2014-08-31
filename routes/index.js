@@ -2,80 +2,90 @@
 var tail = require('../lib/tail');
 var log = require('../lib/log');
 
-/* local definitions */
-var current_grep = "",
-current_file = '/var/log/messages',
-tail_proc;
 
 module.exports = function(app, io){
 
-  var command = 'tail';  
+  /* local definitions */
+  var fields = {};
+  fields.grep = "",
+  fields.file = '/var/log/messages',
+  fields.command = 'tail';
+
+  fields.title = 'GLARE';
+
   /* GET home page */
   app.get('/', function(req, res) {
     log.info("Got get request!!");
 
+    //start the default tail process
+    tail_proc = tail.doTail(fields.file, function(logs){
+      lines = logs.split("\n");
+      lines.forEach(function(line){
+        if(line.indexOf(fields.grep) > -1){
+          io.sockets.emit('tail', {logs : line});
+        }
+      });
+    }); 
+    
+    //scan the directory
     tail.showDirTree('/var/log', function(files){
+      fields.files = files;
 
       res.render('index',{ 
-	      title: 'Glare',
-	      files: files,
-        current_grep: current_grep,
-        current_file: current_file,
-        command: command
+        fields : fields
       });
     }); 
   });
 
-  app.post('/', function(req, res){
-    log.info("got post request!!!");
 
-    current_grep = (req.body.search)?req.body.search:current_grep;
-    log.info("Current_grep is: "+ current_grep);
-    current_file = (req.body.filename)?req.body.filename:current_file;
-    log.info("Current_file is: "+ current_file);
-    command = (req.body.command)?req.body.command:command;
+  /* Handle the POST for updates */
+  app.post('/', function(req, res){
+
+    log.info("RAW GREP  :%s", req.body.search);
+    log.info("GREP: %s", req.body.clear);
+    
+    if(req.body.search){
+      fields.grep = req.body.search;
+    }else{
+      fields.grep = "";
+    }
+    log.info("GREP: %s",fields.grep);
+    fields.file = (req.body.filename)?req.body.filename:fields.file;
+    
+    fields.command = (req.body.command)?req.body.command: fields.command;
       
-    log.info("Command in request is: "+ req.body.command);
-    log.info("Command was set to: "+ command);
     
     if(tail_proc){
       log.info("Killing tail process: %s", tail_proc);
       tail.killTail(tail_proc);
     }
     
-    if(command === 'tail'){
+    if(fields.command === 'tail'){
       
-      log.info("Starting new %s process with %s file", command, current_file);  
-      tail_proc = tail.doTail(current_file, function(logs){
+      log.info("Starting new %s process with %s file", fields.command, fields.file);  
+      tail_proc = tail.doTail(fields.file, function(logs){
         lines = logs.split("\n");
         lines.forEach(function(line){
-          if(line.indexOf(current_grep) > -1){
+          if(line.indexOf(fields.grep) > -1){
             io.sockets.emit('tail', {logs : line});
           }
         });
       }); 
     }
-    if(command === 'less'){
-      
-      tail.doLess(current_file, function(logs){
+
+    if(fields.command === 'less'){
+
+      log.info("Starting new %s process with %s file", fields.command, fields.file);      
+      tail.doLess(fields.file, function(logs){
         lines = logs.split("\n");
         lines.forEach(function(line){
-          if(line.indexOf(current_grep) > -1){
+          if(line.indexOf(fields.grep) > -1){
             io.sockets.emit('less', {logs: line});
           }
         });
       });
     }
-    //log.info("Redirecting to root!!");
-    tail.showDirTree('/var/log', function(files){
-
-      res.render('index',{ 
-	      title: 'Glare',
-	      files: files,
-        current_grep: current_grep,
-        current_file: current_file,
-        command: command
-      });
-    }); 
+    //update client with new values
+    res.status(200).json(fields);
   });
 };
