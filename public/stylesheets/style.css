@@ -1,6 +1,6 @@
 body {
   padding-top: 70px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 .navbar label{
@@ -14,4 +14,15 @@ footer {
 
 #grep_color{
   color: red;
+}
+
+.nav-update{
+  color: silver;
+  font: bold 15px "Courier New", Courier, monospace;
+}
+
+.nav-status{
+  padding-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
 }

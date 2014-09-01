@@ -44,21 +44,21 @@ $(document).ready(function(){
       success: function(data){
         
         $('#log_list').empty();
-        $('#grep > label').text('Grepping: '+data.grep);
+        $('#grep > div').text('Grepping: '+data.grep);
       }
     });
   });
                          
-  $('#submit_file').click(function(e){
-
+  $('.file_div_btn').click(function(e){
+    //alert(this.id);
     $.ajax({
       url: '/',
       method: 'POST',
-      data: $('#file_form').serialize(),
+      data: { filename : this.id },
       success: function(data){
         
         $('#log_list').empty();
-        $('#file > label').text("File: "+data.file);
+        $('#file > div').text("File: "+data.file);
       }
     });
   });

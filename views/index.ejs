@@ -19,6 +19,12 @@
 	        </h1></a>
 	      </div>
         
+        <div class="nav navbar-nav navbar navbar-right">
+          
+            <div id="file" class="nav-status"><div class="nav-update">File: <%= fields.file %></div></div>
+            <div id="grep" class="nav-status"><div class="nav-update">Grepping: <%= fields.grep %></div></div>
+          
+        </div>
         
 	      <form id="grep_form" class="navbar-form navbar-right" role="search">
 	        <input type="text" class="text" name="search" placeholder="Grep term..."/>
@@ -27,15 +33,7 @@
 	      
         <form class="navbar-right navbar-form" role="search">
           <input id="submit_cmd" type="button" class="btn btn-sm navbar-btn" value="less">
-        </form>
-        
-        <div class="nav navbar-nav navbar">
-          <ul >
-            <li id="file" ><label>File: <%= fields.file %></label></li>
-            <li id="grep" ><label>Grepping: <%= fields.grep %></label></li>
-          </ul>
-        </div>
-        
+        </form>        
       </div>
     </nav>
     
@@ -49,14 +47,11 @@
 	        <h2 class="page-header">Files
 	          <small>select files to view</small>
 	        </h2>
-	        <form id="file_form">
-	          <input id="submit_file" class="btn btn-sm" type="button" value="view">
-	          <ul class="nav nav-sidebar">
-	            <% fields.files.forEach(function(f){ %>
-	            <li> <%= f %> <input type="radio" name="filename" value="<%= f %>"></li>
-	            <% }); %>
-	          </ul>
-	        </form>
+	        <ul class="nav nav-sidebar">
+	          <% fields.files.forEach(function(f){ %>
+	          <li><button id="<%= f %>" class="file_div_btn btn btn-sm"><%= f %></button></li>
+	          <% }); %>
+	        </ul>
 	      </div>
 	      
 	      <div id="body" class="col-md-9 main">
