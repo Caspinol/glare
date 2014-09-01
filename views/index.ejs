@@ -26,8 +26,8 @@
           
         </div>
         
-	      <form id="grep_form" class="navbar-form navbar-right" role="search">
-	        <input type="text" class="text" name="search" placeholder="Grep term..."/>
+	      <form id="grep_form" class="navbar-form pull-right" role="search">
+	        <input type="text" class="span2 search-query" name="search" placeholder="Grep term..."/>
 	        <input id="submit_search" class="btn btn-sm navbar-btn" type="button" value="Search"/>
 	      </form>
 	      
@@ -45,13 +45,13 @@
 	      
 	      <div id="directory" class="col-md-3 sidebar">
 	        <h2 class="page-header">Files
-	          <small>select files to view</small>
+	          <small>click to view</small>
 	        </h2>
-	        <ul class="nav nav-sidebar">
+	        <div class="btn-group btn-group-vertical ">
 	          <% fields.files.forEach(function(f){ %>
-	          <li><button id="<%= f %>" class="file_div_btn btn btn-sm"><%= f %></button></li>
+	          <button id="<%= f %>" class="file_div_btn btn btn-sm"><%= f %></button>
 	          <% }); %>
-	        </ul>
+	        </div>
 	      </div>
 	      
 	      <div id="body" class="col-md-9 main">

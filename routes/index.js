@@ -2,6 +2,7 @@
 var tail = require('../lib/tail');
 var log = require('../lib/log');
 var colorize = require('../lib/mod');
+var config = require('../glareconf.js');
 
 module.exports = function(app, io){
 
@@ -28,7 +29,7 @@ module.exports = function(app, io){
     }); 
     
     //scan the directory
-    tail.showDirTree('/var/log', function(files){
+    tail.showDirTree(config.directory, function(files){
       fields.files = files;
 
       res.render('index',{ 
