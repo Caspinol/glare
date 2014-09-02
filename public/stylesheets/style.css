@@ -30,3 +30,7 @@ footer {
 .file_div_btn{
   border: 1px dotted black;
 }
+
+ul.show-logs {
+  list-style-type: none;
+}

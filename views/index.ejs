@@ -49,7 +49,7 @@
 	        </h2>
 	        <div class="btn-group btn-group-vertical ">
 	          <% fields.files.forEach(function(f){ %>
-	          <button id="<%= f %>" class="file_div_btn btn btn-sm"><%= f %></button>
+	          <button id="<%= f %>" class="file_div_btn btn btn-sm" style="width:250px; white-space:normal;"><%= f %></button>
 	          <% }); %>
 	        </div>
 	      </div>
@@ -58,7 +58,7 @@
 	        <h2 class="page-header">Logs </h2>
 	        <div id="log_window">
             
-	          <ul id="log_list"></ul>
+	          <ul id="log_list" class="show-logs"></ul>
             
 	        </div>
 	      </div>
